@@ -7,7 +7,7 @@
       type="text"
       v-model="value"
       @change="onFieldChange"
-      @keyup.enter="onFieldSubmit"
+      @keyup.enter.stop.prevent="onFieldSubmit"
     >
   </div>
 </template>

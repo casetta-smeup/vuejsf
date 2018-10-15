@@ -13,7 +13,7 @@
     <button
       v-if="showSubmit"
       type="button"
-      @click="onFldClick"
+      @click="onBtnClick"
     >Conferma</button>
   </div>
 </template>
@@ -67,13 +67,18 @@ export default {
   },
 
   methods: {
+    onBtnClick() {
+      this.$emit("click", this.value);
+    },
+
     onFldChange(newValue) {
       this.value = newValue;
       this.$emit("change", this.value);
     },
 
-    onFldClick() {
-      this.$emit("click", this.value);
+    onFldClick(newValue) {
+      this.value = newValue;
+      this.onBtnClick();
     }
   }
 };
