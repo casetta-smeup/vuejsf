@@ -11,7 +11,7 @@
       id="fld1"
       type="Itx"
       initialValue="asd"
-      label="My label"
+      label="InputText"
       :showSubmit="true"
       @change="onFldChange"
       @click="onFldClick"
@@ -19,6 +19,17 @@
 
     <SmeupFld
       id="fld2"
+      type="Acp"
+      initialValue=""
+      label="Autocomplete"
+      :showSubmit="true"
+      :queryMethod="queryMethod"
+      @change="onFldChange"
+      @click="onFldClick"
+    />
+
+    <SmeupFld
+      id="fldxx"
       type="Asd"
     />
   </div>
@@ -49,6 +60,10 @@ export default {
 
     onLabelClick(value) {
       console.log("value", value);
+    },
+
+    queryMethod(query) {
+      console.log("lol", query);
     }
   }
 };

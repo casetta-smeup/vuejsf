@@ -6,14 +6,29 @@
     <input
       type="text"
       v-model="value"
+      :disabled="disabled"
+      :readonly="disabled"
+      :maxlength="maxlength"
+      :size="size"
       @change="onFieldChange"
-      @keyup.enter.stop.prevent="onFieldSubmit"
+      @keydown.enter.stop.prevent="onFieldSubmit"
     >
+
+    <clear-button
+      v-if="clearValue && !disabled"
+      @click="onClear"
+    />
   </div>
 </template>
 
 <script>
+import ClearButton from "@/components/shared/ClearButton.vue";
+
 export default {
+  components: {
+    ClearButton
+  },
+
   data() {
     return {
       value: this.initialValue
@@ -21,6 +36,11 @@ export default {
   },
 
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
     id: {
       type: String,
       required: true
@@ -28,6 +48,21 @@ export default {
 
     initialValue: {
       type: String
+    },
+
+    maxlength: {
+      type: Number,
+      default: null
+    },
+
+    size: {
+      type: Number,
+      default: null
+    },
+
+    clearValue: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -38,7 +73,18 @@ export default {
 
     onFieldSubmit() {
       this.$emit("click", this.value);
+    },
+
+    onClear() {
+      this.value = "";
+      this.onFieldChange();
     }
   }
 };
 </script>
+
+<style scoped>
+.inputtext {
+  display: flex;
+}
+</style>

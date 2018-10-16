@@ -6,6 +6,11 @@
       :is="fieldComponent"
       :id="id"
       :initialValue="initialValue"
+      :disabled="disabled"
+      :maxlength="maxlength"
+      :size="size"
+      :clearValue="clearValue"
+      :queryMethod="queryMethod"
       @change="onFldChange"
       @click="onFldClick"
     />
@@ -19,17 +24,17 @@
 </template>
 
 <script>
+import Autocomplete from "./fields/Autocomplete.vue";
 import InputText from "./fields/InputText.vue";
 import NotImplemented from "./fields/NotImplemented.vue";
 
 export default {
-  data() {
-    return {
-      value: this.initialValue
-    };
-  },
-
   props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
     id: {
       type: String,
       required: true
@@ -51,12 +56,40 @@ export default {
     showSubmit: {
       type: Boolean,
       default: false
+    },
+
+    maxlength: {
+      type: Number,
+      default: null
+    },
+
+    size: {
+      type: Number,
+      default: null
+    },
+
+    clearValue: {
+      type: Boolean,
+      default: false
+    },
+
+    queryMethod: {
+      type: Function
     }
+  },
+
+  data() {
+    return {
+      value: this.initialValue
+    };
   },
 
   computed: {
     fieldComponent() {
       switch (this.type) {
+        case "Acp":
+          return Autocomplete;
+
         case "Itx":
           return InputText;
 
