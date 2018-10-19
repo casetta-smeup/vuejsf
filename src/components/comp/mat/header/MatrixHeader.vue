@@ -9,13 +9,12 @@ th {
     <tr>
       <th
         v-for="col in columns"
-        :key="col.c"
-        :style="{ width: col.width }"
+        :key="col.code"
       >
         <span
           @click="onCellClick(col)"
         >
-          {{ col.d }}
+          {{ col.text }}
         </span>
 
         <MatrixHeaderFilter
@@ -40,15 +39,20 @@ import MatrixHeaderFilter from "./MatrixHeaderFilter.vue";
 })
 export default class MatrixHeader extends Vue {
   // props
-  @Prop() private columns!: any[];
+  @Prop()
+  private columns!: any[];
 
-  @Prop() private rows!: any[];
+  @Prop()
+  private rows!: any[];
 
-  @Prop() private filterable!: boolean;
+  @Prop()
+  private filterable!: boolean;
 
-  @Prop() private sortable!: boolean;
+  @Prop()
+  private sortable!: boolean;
 
-  @Prop() private grouping!: boolean;
+  @Prop()
+  private grouping!: boolean;
 
   // methods
   onCellClick(col: any) {

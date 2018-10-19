@@ -27,7 +27,7 @@
         :sortable="sortable"
         :scroll="scroll"
         :grouping="grouping"
-        @sortby="onSort($event)"
+        @sortby="onSort"
       ></MatrixHeader>
 
       <MatrixBody
@@ -175,8 +175,8 @@ export default class SmeupMatrix extends Vue {
     });
   }
 
-  onSort($event: any) {
-    this.sortByColumn = $event.c;
+  onSort(sortColumn: any) {
+    this.sortByColumn = sortColumn.code;
   }
 
   sortRows(_rows: any[]) {
@@ -187,15 +187,11 @@ export default class SmeupMatrix extends Vue {
     }
 
     return _rows.sort((r1, r2) => {
-      console.log("sortByColumn", this.sortByColumn);
-      console.log("r1", this.sortByColumn);
-      console.log("r2", this.sortByColumn);
-
-      const val1 = r1.content[this.sortByColumn].c;
-      const val2 = r2.content[this.sortByColumn].c;
+      const val1 = r1.fields[this.sortByColumn].smeupObject.codice;
+      const val2 = r2.fields[this.sortByColumn].smeupObject.codice;
       // check if ascending or descending sort
       const sortMode = this.data.columns.filter(
-        c => c.c === this.sortByColumn
+        c => c.code === this.sortByColumn
       )[0].sortMode;
 
       const compare = val1.localeCompare(val2);

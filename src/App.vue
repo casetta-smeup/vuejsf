@@ -35,7 +35,7 @@
 
     <SmeupMatrix
       :filterable="false"
-      :sortable="false"
+      :sortable="true"
       :grouping="false"
       :data="data"
     />
