@@ -1,20 +1,12 @@
 <template>
-  <el-select
+  <el-autocomplete
+    class="inline-input"
     v-model="value"
-    filterable
-    remote
-    :remote-method="loadItemsFormServer"
-    :loading="loading"
-    placeholder="Please enter a keyword"
-    @change="onChange"
-  >
-    <el-option
-      v-for="item in items"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    ></el-option>
-  ></el-select>
+    :fetch-suggestions="loadItemsFormServer"
+    placeholder=""
+    :trigger-on-focus="false"
+    @select="handleSelect"
+  />
 </template>
 
 <script>
@@ -42,26 +34,19 @@ export default {
 
   data() {
     return {
-      value: this.initialValue,
-      items: [],
-      loading: false
+      value: this.initialValue
     };
   },
 
   methods: {
-    loadItemsFormServer(query) {
-      this.loading = true;
-
-      // simulo un'attesa...
-      var _this = this;
-      setTimeout(function() {
-        _this.items = _this.queryMethod(query);
-        _this.loading = false;
-      }, 500);
+    loadItemsFormServer(query, cb) {
+      this.queryMethod(query).then(resp => cb(resp));
     },
 
-    onChange() {
-      this.$emit("change", this.value);
+    handleSelect(item) {
+      console.log(item.value);
+      console.log(item.label);
+      // this.$emit("change", this.value);
     }
   }
 };

@@ -32,6 +32,13 @@
       id="fldxx"
       type="Asd"
     />
+
+    <SmeupMatrix
+      :filterable="false"
+      :sortable="false"
+      :grouping="false"
+      :data="data"
+    />
   </div>
 </template>
 
@@ -39,6 +46,9 @@
 import SmeupFld from "./components/SmeupFld.vue";
 import SmeupLabel from "./components/SmeupLabel.vue";
 import InputText from "./components/fields/InputText.vue";
+import SmeupMatrix from "./components/comp/mat/SmeupMatrix.vue";
+
+import importedData from "./mock/dataTable";
 
 export default {
   name: "app",
@@ -46,7 +56,14 @@ export default {
   components: {
     SmeupFld,
     SmeupLabel,
+    SmeupMatrix,
     InputText
+  },
+
+  data() {
+    return {
+      data: importedData
+    };
   },
 
   methods: {
