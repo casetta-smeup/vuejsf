@@ -60,17 +60,20 @@ interface DataTable {
 })
 export default class SmeupMatrix extends Vue {
   // props
-  @Prop()
+  @Prop({ default: false })
   private filterable!: boolean;
 
-  @Prop()
+  @Prop({ default: false })
   private sortable!: boolean;
 
-  @Prop()
+  @Prop({ default: false })
   private grouping!: boolean;
 
-  @Prop()
+  @Prop({ required: true })
   private data!: DataTable;
+
+  @Prop({ default: -1 })
+  private selRecord!: any;
 
   // data
   manyRows: boolean = false;
@@ -137,6 +140,12 @@ export default class SmeupMatrix extends Vue {
       return filteredRows.splice(start, end);
     }
     return filteredRows;
+  }
+
+  mounted() {
+    if (this.selRecord >= 0 && this.selRecord <= this.rows.length) {
+      this.rows[this.selRecord].selected = true;
+    }
   }
 
   // methods

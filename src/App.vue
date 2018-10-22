@@ -38,6 +38,8 @@
       :sortable="true"
       :grouping="false"
       :data="data"
+      :selRecord="4"
+      @rowselected="onRowSelected"
     />
   </div>
 </template>
@@ -81,6 +83,10 @@ export default {
 
     queryMethod(query) {
       console.log("lol", query);
+    },
+
+    onRowSelected(elem) {
+      console.log(elem);
     }
   }
 };
