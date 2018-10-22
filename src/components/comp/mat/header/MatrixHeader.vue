@@ -21,6 +21,7 @@ th {
           v-if="filterable"
           :column="col"
           :rows="rows"
+          @filterby="onFilterBy"
         ></MatrixHeaderFilter>
       </th>
     </tr>
@@ -45,7 +46,7 @@ export default class MatrixHeader extends Vue {
   @Prop()
   private rows!: any[];
 
-  @Prop()
+  @Prop({ default: false })
   private filterable!: boolean;
 
   @Prop()
@@ -60,6 +61,10 @@ export default class MatrixHeader extends Vue {
       col.sortMode === "A" ? (col.sortMode = "D") : (col.sortMode = "A");
       this.$emit("sortby", col);
     }
+  }
+
+  onFilterBy(filter: any) {
+    this.$emit("filterby", filter);
   }
 }
 </script>

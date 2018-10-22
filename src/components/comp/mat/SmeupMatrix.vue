@@ -28,6 +28,7 @@
         :scroll="scroll"
         :grouping="grouping"
         @sortby="onSort"
+        @filterby="onFilterBy"
       ></MatrixHeader>
 
       <MatrixBody
@@ -143,7 +144,11 @@ export default class SmeupMatrix extends Vue {
   }
 
   mounted() {
-    if (this.selRecord >= 0 && this.selRecord <= this.rows.length) {
+    if (
+      this.rows &&
+      this.selRecord >= 0 &&
+      this.selRecord <= this.rows.length
+    ) {
       this.rows[this.selRecord].selected = true;
     }
   }
@@ -162,17 +167,17 @@ export default class SmeupMatrix extends Vue {
         // there is atleast a filter
         return (
           columnsWithFilter.filter(c => {
-            let rowCell = r.content[c.c];
+            let rowCell = r.fields[c.code];
             if (rowCell) {
               // checking if filter is an array
               if (Array.isArray(c.filterValue)) {
                 for (let i = 0; i < c.filterValue.length; i++) {
-                  if (rowCell.c.includes(c.filterValue[i])) {
+                  if (rowCell.smeupObject.codice.includes(c.filterValue[i])) {
                     return true;
                   }
                 }
               } else {
-                return rowCell.c.includes(c.filterValue);
+                return rowCell.smeupObject.codice.includes(c.filterValue);
               }
             }
 
@@ -272,6 +277,17 @@ export default class SmeupMatrix extends Vue {
 
   onRowSelected($event: any) {
     this.$emit("rowselected", $event);
+  }
+
+  onFilterBy(filter: any) {
+    // search column
+    const cols = this.columns.filter(c => c.code === filter.column.code);
+
+    if (cols.length > 0) {
+      cols[0].filterValue = filter.filterValue;
+    }
+
+    this.$emit("filterby", filter);
   }
 }
 </script>

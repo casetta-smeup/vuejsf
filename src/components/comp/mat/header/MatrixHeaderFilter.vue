@@ -16,8 +16,9 @@
       v-else
       placeholder="Choose one"
       :multiple="true"
-      v-model="filterValue">
-
+      v-model="filterValue"
+      @change="onValueChange"
+    >
       <el-option
         v-for="(value, index) in comboValues"
         :key="index"
@@ -34,9 +35,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component
 export default class MatrixHeaderFilter extends Vue {
   // props
-  @Prop() private column!: any;
+  @Prop()
+  private column!: any;
 
-  @Prop() private rows!: any[];
+  @Prop()
+  private rows!: any[];
 
   filterValue: string = this.column.filterValue;
 
@@ -70,14 +73,18 @@ export default class MatrixHeaderFilter extends Vue {
           );
       }
     } else {
-      values.push(_row.content[this.column.c].c);
+      values.push(_row.fields[this.column.code].smeupObject.codice);
     }
 
     return values;
   }
 
   onValueChange() {
-    this.$emit("filterby", this.column, this.filterValue);
+    // this.column, this.filterValue
+    this.$emit("filterby", {
+      column: this.column,
+      filterValue: this.filterValue
+    });
   }
 }
 </script>

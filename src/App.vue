@@ -34,11 +34,10 @@
     />
 
     <SmeupMatrix
-      :filterable="false"
+      :filterable="true"
       :sortable="true"
       :grouping="false"
       :data="data"
-      :selRecord="4"
       @rowselected="onRowSelected"
     />
   </div>
