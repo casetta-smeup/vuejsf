@@ -21,8 +21,8 @@
   <div class="MAT">
     <table>
       <MatrixHeader
-        :columns="columns"
-        :rows="rows"
+        :columns="data.columns"
+        :rows="data.rows"
         :filterable="filterable"
         :sortable="sortable"
         :scroll="scroll"
@@ -32,7 +32,7 @@
       ></MatrixHeader>
 
       <MatrixBody
-        :columns="columns"
+        :columns="data.columns"
         :rows="filteredRows"
         :grouping="grouping"
         @rowtoggled="onRowToggled"
@@ -97,14 +97,6 @@ export default class SmeupMatrix extends Vue {
   };
 
   // computed props
-  get columns(): any[] {
-    return this.data.columns;
-  }
-
-  get rows(): any[] {
-    return this.data.rows;
-  }
-
   get filteredRows(): any[] {
     if (this.grouping) {
       // trasformo l'albero in una lista
@@ -144,13 +136,18 @@ export default class SmeupMatrix extends Vue {
   }
 
   mounted() {
+    // selfirst / selectRow
     if (
-      this.rows &&
+      this.data.rows &&
       this.selRecord >= 0 &&
-      this.selRecord <= this.rows.length
+      this.selRecord <= this.data.rows.length
     ) {
-      this.rows[this.selRecord].selected = true;
+      this.data.rows[this.selRecord].selected = true;
     }
+  }
+
+  beforeDestroy() {
+    console.log("destroyed smeup matrix");
   }
 
   // methods
@@ -281,7 +278,7 @@ export default class SmeupMatrix extends Vue {
 
   onFilterBy(filter: any) {
     // search column
-    const cols = this.columns.filter(c => c.code === filter.column.code);
+    const cols = this.data.columns.filter(c => c.code === filter.column.code);
 
     if (cols.length > 0) {
       cols[0].filterValue = filter.filterValue;

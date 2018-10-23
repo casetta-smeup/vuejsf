@@ -18,6 +18,7 @@
       :multiple="true"
       v-model="filterValue"
       @change="onValueChange"
+      @visible-change="onVisibleChange"
     >
       <el-option
         v-for="(value, index) in comboValues"
@@ -43,20 +44,13 @@ export default class MatrixHeaderFilter extends Vue {
 
   filterValue: string = this.column.filterValue;
 
+  comboValues: any[] = new Array();
+
+  loaded = false;
+
   // computed
   get isNumber() {
-    return "NR" === this.column.t;
-  }
-
-  get comboValues() {
-    // distinct values + sort
-    const values: any[] = new Array();
-
-    this.rows
-      .map(r => this.getComboValuesRic(r))
-      .forEach(_values => _values.forEach(_value => values.push(_value)));
-
-    return ["", ...new Set(values)].sort();
+    return "NR" === this.column.tipo;
   }
 
   // methods
@@ -85,6 +79,21 @@ export default class MatrixHeaderFilter extends Vue {
       column: this.column,
       filterValue: this.filterValue
     });
+  }
+
+  onVisibleChange() {
+    if (!this.loaded) {
+      // distinct values + sort
+      const values: String[] = new Array();
+
+      this.rows
+        .map(r => this.getComboValuesRic(r))
+        .forEach(_values => _values.forEach(_value => values.push(_value)));
+
+      this.comboValues = ["", ...new Set(values)].sort();
+
+      this.loaded = true;
+    }
   }
 }
 </script>

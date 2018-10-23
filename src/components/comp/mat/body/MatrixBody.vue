@@ -3,23 +3,13 @@
 
 <template>
   <tbody>
-    <template v-for="(row, index) in rows">
-      <GroupRow
-        v-if="row.group"
-        :key="index"
-        :columns="columns"
-        :row="row"
-        @rowtoggled="onRowToggled"
-      />
-
-      <DataRow
-        v-else
-        :key="index"
-        :columns="columns"
-        :row="row"
-        @rowselect="onRowSelect"
-      />
-    </template>
+    <DataRow
+      v-for="row in rows"
+      :key="row.fields['RowId'].smeupObject.codice"
+      :columns="columns"
+      :row="row"
+      @rowselect="onRowSelect"
+    />
   </tbody>
 </template>
 
@@ -52,11 +42,11 @@ export default class MatrixBody extends Vue {
   @Prop()
   private grouping!: boolean;
 
-  // methods
-  getCellValue(columnCode: string, row: any) {
-    return row.content[columnCode].c;
+  beforeDestroy() {
+    console.log("destroyed matrix body");
   }
 
+  // methods
   onRowSelect($event: any) {
     // unselecting all rows
     this.rows

@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 th {
   padding: 5px;
+  min-width: 100px;
 }
 </style>
 
@@ -22,7 +23,7 @@ th {
           :column="col"
           :rows="rows"
           @filterby="onFilterBy"
-        ></MatrixHeaderFilter>
+        />
       </th>
     </tr>
   </thead>
@@ -54,6 +55,10 @@ export default class MatrixHeader extends Vue {
 
   @Prop()
   private grouping!: boolean;
+
+  beforeDestroy() {
+    console.log("destroyed matrix header");
+  }
 
   // methods
   onCellClick(col: any) {
