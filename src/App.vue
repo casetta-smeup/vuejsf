@@ -12,7 +12,9 @@
       type="Itx"
       initialValue="asd"
       label="InputText"
-      :showSubmit="true"
+      showSubmit
+      mobile
+      clearValue
       @change="onFldChange"
       @click="onFldClick"
     />
@@ -22,7 +24,8 @@
       type="Acp"
       initialValue=""
       label="Autocomplete"
-      :showSubmit="true"
+      mobile
+      showSubmit
       :queryMethod="queryMethod"
       @change="onFldChange"
       @click="onFldClick"

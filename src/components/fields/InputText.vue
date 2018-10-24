@@ -2,6 +2,7 @@
   <div
     :id="id"
     class="inputtext"
+    :class="{ mobile: mobile }"
   >
     <input
       type="text"
@@ -63,6 +64,11 @@ export default {
     clearValue: {
       type: Boolean,
       default: false
+    },
+
+    mobile: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -83,8 +89,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .inputtext {
   display: flex;
+
+  &.mobile {
+    > input {
+      width: 100%;
+    }
+  }
 }
 </style>

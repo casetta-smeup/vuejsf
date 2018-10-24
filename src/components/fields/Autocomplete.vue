@@ -1,6 +1,15 @@
+<style lang="scss" scoped>
+.el-autocomplete {
+  &.mobile {
+    width: 100%;
+  }
+}
+</style>
+
 <template>
   <el-autocomplete
     class="inline-input"
+    :class="{ mobile: mobile }"
     v-model="value"
     :fetch-suggestions="loadItemsFormServer"
     placeholder=""
@@ -29,6 +38,11 @@ export default {
     queryMethod: {
       type: Function,
       required: true
+    },
+
+    mobile: {
+      type: Boolean,
+      default: false
     }
   },
 

@@ -1,19 +1,25 @@
 <template>
-  <div class="fld-container">
+  <div
+    class="fld-container"
+    :class="{ mobile: mobile }"
+  >
     <span class="label">{{ label }}</span>
 
-    <component
-      :is="fieldComponent"
-      :id="id"
-      :initialValue="initialValue"
-      :disabled="disabled"
-      :maxlength="maxlength"
-      :size="size"
-      :clearValue="clearValue"
-      :queryMethod="queryMethod"
-      @change="onFldChange"
-      @click="onFldClick"
-    />
+    <div class="input-container">
+      <component
+        :is="fieldComponent"
+        :id="id"
+        :mobile="mobile"
+        :initialValue="initialValue"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        :size="size"
+        :clearValue="clearValue"
+        :queryMethod="queryMethod"
+        @change="onFldChange"
+        @click="onFldClick"
+      />
+    </div>
 
     <button
       v-if="showSubmit"
@@ -75,6 +81,11 @@ export default {
 
     queryMethod: {
       type: Function
+    },
+
+    mobile: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -117,16 +128,27 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .fld-container {
   display: flex;
-}
 
-span.label {
-  margin-right: 5px;
-}
+  span.label {
+    margin-right: 5px;
+  }
 
-button {
-  margin-left: 5px;
+  > button {
+    margin-left: 5px;
+  }
+
+  &.mobile {
+    flex-direction: column;
+
+    span.label,
+    .input-container,
+    > button {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  }
 }
 </style>
