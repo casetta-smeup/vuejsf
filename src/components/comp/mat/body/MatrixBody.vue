@@ -42,10 +42,6 @@ export default class MatrixBody extends Vue {
   @Prop()
   private grouping!: boolean;
 
-  beforeDestroy() {
-    console.log("destroyed matrix body");
-  }
-
   // methods
   onRowSelect($event: any) {
     // unselecting all rows

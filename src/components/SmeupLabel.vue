@@ -7,7 +7,19 @@
 
 <script>
 export default {
-  props: ["align", "color", "content"],
+  props: {
+    align: {
+      type: String
+    },
+
+    color: {
+      type: String
+    },
+
+    content: {
+      type: String
+    }
+  },
 
   methods: {
     onLabelClick() {

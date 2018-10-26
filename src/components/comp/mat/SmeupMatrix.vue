@@ -1,27 +1,8 @@
-<style lang="scss" scoped>
-.MAT {
-  overflow-x: auto;
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .scrollable-header {
-    overflow: hidden;
-  }
-
-  .scroll-radio {
-    margin-top: 1rem;
-  }
-}
-</style>
-
 <template>
   <div class="MAT">
     <table>
       <MatrixHeader
-        :columns="data.columns"
+        :columns="columns"
         :rows="data.rows"
         :filterable="filterable"
         :sortable="sortable"
@@ -29,24 +10,26 @@
         :grouping="grouping"
         @sortby="onSort"
         @filterby="onFilterBy"
-      ></MatrixHeader>
+      />
 
       <MatrixBody
-        :columns="data.columns"
+        :columns="columns"
         :rows="filteredRows"
         :grouping="grouping"
         @rowtoggled="onRowToggled"
         @rowselect="onRowSelected"
-      ></MatrixBody>
+      />
     </table>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import MatrixBody from "./body/MatrixBody.vue";
 import MatrixHeader from "./header/MatrixHeader.vue";
+
+import Column from "./Column";
 
 interface DataTable {
   columns: any[];
@@ -77,8 +60,6 @@ export default class SmeupMatrix extends Vue {
   private selRecord!: any;
 
   // data
-  manyRows: boolean = false;
-
   sortByColumn: any = null;
 
   pagination = {
@@ -95,6 +76,13 @@ export default class SmeupMatrix extends Vue {
     columnsWidth: [],
     scrollLeft: 0
   };
+
+  columns: any[] = new Array();
+
+  // lifecicle hooks
+  created() {
+    this.initMatrix();
+  }
 
   // computed props
   get filteredRows(): any[] {
@@ -135,7 +123,19 @@ export default class SmeupMatrix extends Vue {
     return filteredRows;
   }
 
-  mounted() {
+  // watcher
+  @Watch("data")
+  onChildChanged() {
+    this.initMatrix();
+  }
+
+  // methods
+  initMatrix() {
+    // columns
+    if (this.data && this.data.columns) {
+      this.columns = this.data.columns.map(col => new Column(col));
+    }
+
     // selfirst / selectRow
     if (
       this.data.rows &&
@@ -146,14 +146,9 @@ export default class SmeupMatrix extends Vue {
     }
   }
 
-  beforeDestroy() {
-    console.log("destroyed smeup matrix");
-  }
-
-  // methods
   filterRows(_rows: any[]) {
     return _rows.filter(r => {
-      const columnsWithFilter = this.data.columns.filter(c => {
+      const columnsWithFilter = this.columns.filter(c => {
         if (c.filterValue) {
           return c.filterValue.length > 0;
         }
@@ -201,9 +196,8 @@ export default class SmeupMatrix extends Vue {
       const val1 = r1.fields[this.sortByColumn].smeupObject.codice;
       const val2 = r2.fields[this.sortByColumn].smeupObject.codice;
       // check if ascending or descending sort
-      const sortMode = this.data.columns.filter(
-        c => c.code === this.sortByColumn
-      )[0].sortMode;
+      const sortMode = this.columns.filter(c => c.code === this.sortByColumn)[0]
+        .sortMode;
 
       const compare = val1.localeCompare(val2);
       return sortMode === "A" ? compare : compare * -1;
@@ -278,7 +272,7 @@ export default class SmeupMatrix extends Vue {
 
   onFilterBy(filter: any) {
     // search column
-    const cols = this.data.columns.filter(c => c.code === filter.column.code);
+    const cols = this.columns.filter(c => c.code === filter.column.code);
 
     if (cols.length > 0) {
       cols[0].filterValue = filter.filterValue;
@@ -288,3 +282,22 @@ export default class SmeupMatrix extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.MAT {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .scrollable-header {
+    overflow: hidden;
+  }
+
+  .scroll-radio {
+    margin-top: 1rem;
+  }
+}
+</style>

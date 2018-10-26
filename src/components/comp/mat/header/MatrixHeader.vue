@@ -56,10 +56,6 @@ export default class MatrixHeader extends Vue {
   @Prop()
   private grouping!: boolean;
 
-  beforeDestroy() {
-    console.log("destroyed matrix header");
-  }
-
   // methods
   onCellClick(col: any) {
     if (this.sortable) {
