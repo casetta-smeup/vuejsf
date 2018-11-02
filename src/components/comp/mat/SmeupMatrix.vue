@@ -3,7 +3,7 @@
     <table>
       <MatrixHeader
         :columns="columns"
-        :rows="data.rows"
+        :rows="rows"
         :filterable="filterable"
         :sortable="sortable"
         :scroll="scroll"
@@ -77,7 +77,8 @@ export default class SmeupMatrix extends Vue {
     scrollLeft: 0
   };
 
-  columns: any[] = new Array();
+  columns: Column[] = new Array();
+  rows: any[] = new Array();
 
   // lifecicle hooks
   created() {
@@ -90,7 +91,7 @@ export default class SmeupMatrix extends Vue {
       // trasformo l'albero in una lista
       const filteredRows: any[] = [];
 
-      this.data.rows.forEach(r => {
+      this.rows.forEach(r => {
         // add row
         filteredRows.push(r);
 
@@ -103,7 +104,7 @@ export default class SmeupMatrix extends Vue {
     }
 
     // filter row
-    const filteredRows = this.filterRows(this.data.rows);
+    const filteredRows = this.filterRows(this.rows);
 
     // check sorting
     if (this.sortByColumn) {
@@ -136,13 +137,28 @@ export default class SmeupMatrix extends Vue {
       this.columns = this.data.columns.map(col => new Column(col));
     }
 
+    // rows
+    if (this.data && this.data.rows) {
+      this.rows = this.data.rows.map(r => {
+        const row: any = {
+          selected: false
+        };
+
+        Object.keys(r.fields).forEach(key => {
+          row[key] = r.fields[key].smeupObject.codice;
+        });
+
+        return row;
+      });
+    }
+
     // selfirst / selectRow
     if (
-      this.data.rows &&
+      this.rows &&
       this.selRecord >= 0 &&
-      this.selRecord <= this.data.rows.length
+      this.selRecord <= this.rows.length
     ) {
-      this.data.rows[this.selRecord].selected = true;
+      this.rows[this.selRecord].selected = true;
     }
   }
 
@@ -159,17 +175,17 @@ export default class SmeupMatrix extends Vue {
         // there is atleast a filter
         return (
           columnsWithFilter.filter(c => {
-            let rowCell = r.fields[c.code];
+            let rowCell = r[c.code];
             if (rowCell) {
               // checking if filter is an array
               if (Array.isArray(c.filterValue)) {
                 for (let i = 0; i < c.filterValue.length; i++) {
-                  if (rowCell.smeupObject.codice.includes(c.filterValue[i])) {
+                  if (rowCell.includes(c.filterValue[i])) {
                     return true;
                   }
                 }
               } else {
-                return rowCell.smeupObject.codice.includes(c.filterValue);
+                return rowCell.includes(c.filterValue);
               }
             }
 
@@ -193,8 +209,8 @@ export default class SmeupMatrix extends Vue {
     }
 
     return _rows.sort((r1, r2) => {
-      const val1 = r1.fields[this.sortByColumn].smeupObject.codice;
-      const val2 = r2.fields[this.sortByColumn].smeupObject.codice;
+      const val1 = r1[this.sortByColumn];
+      const val2 = r2[this.sortByColumn];
       // check if ascending or descending sort
       const sortMode = this.columns.filter(c => c.code === this.sortByColumn)[0]
         .sortMode;
@@ -208,8 +224,8 @@ export default class SmeupMatrix extends Vue {
     let group = null;
 
     // searching for group
-    for (let i = 0; i < this.data.rows.length; i++) {
-      const child = this.data.rows[i];
+    for (let i = 0; i < this.rows.length; i++) {
+      const child = this.rows[i];
 
       if (child.group) {
         if (child.text === $event.text) {

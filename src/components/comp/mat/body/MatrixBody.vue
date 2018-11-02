@@ -5,7 +5,7 @@
   <tbody>
     <DataRow
       v-for="row in rows"
-      :key="row.fields['RowId'].smeupObject.codice"
+      :key="row['RowId']"
       :columns="columns"
       :row="row"
       @rowselect="onRowSelect"

@@ -67,7 +67,7 @@ export default class MatrixHeaderFilter extends Vue {
           );
       }
     } else {
-      values.push(_row.fields[this.column.code].smeupObject.codice);
+      values.push(_row[this.column.code]);
     }
 
     return values;

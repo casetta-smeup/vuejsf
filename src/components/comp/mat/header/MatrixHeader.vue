@@ -2,6 +2,20 @@
 th {
   padding: 5px;
   min-width: 100px;
+
+  &.sortable {
+    cursor: pointer;
+  }
+
+  span.mdi {
+    display: none;
+  }
+
+  &:hover {
+    span.mdi {
+      display: inline;
+    }
+  }
 }
 </style>
 
@@ -11,12 +25,19 @@ th {
       <th
         v-for="col in columns"
         :key="col.code"
+        :class="{ sortable: sortable }"
       >
         <span
           @click="onCellClick(col)"
         >
           {{ col.text }}
         </span>
+
+        <span
+          v-if="sortable"
+          class="mdi"
+          :class="{ 'mdi-arrow-up' : col.isAscending, 'mdi-arrow-down' : !col.isAscending }"
+        ></span>
 
         <MatrixHeaderFilter
           v-if="filterable"

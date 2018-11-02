@@ -41,6 +41,7 @@
       :sortable="true"
       :grouping="false"
       :data="data"
+      :selRecord="1"
       @rowselected="onRowSelected"
     />
   </div>
