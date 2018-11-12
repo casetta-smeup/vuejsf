@@ -20,5 +20,29 @@ module.exports = {
   testMatch: [
     "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
   ],
-  testURL: "http://localhost/"
+  testURL: "http://localhost/",
+  reporters: [
+    "default",
+    "jest-junit"
+  ],
+  coverageReporters: [
+    "text",
+    "cobertura", 
+    "html"
+  ],
+  coverageDirectory: "target/test/unit/coverage",
+  //coverageThreshold: {
+  //  "global": {
+  //    "branches": 100,
+  //    "functions": 100,
+  //    "lines": 100,
+  //    "statements": 100
+  //  },
+  //},
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.vue"
+  ]
 };
+
+
