@@ -23,7 +23,20 @@ module.exports = {
   testURL: "http://localhost/",
   reporters: [
     "default",
-    "jest-junit"
+
+    [ "jest-junit", { 
+      "output": "target/test/unit/junit/junit.xml",
+      "classNameTemplate": "{classname} - {title}",
+      "titleTemplate": "{classname} - {title}",
+      } 
+    ], 
+
+
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Jest Unit Test Report",
+      "outputPath": "target/test/unit/html/index.html"
+      }
+    ]    
   ],
   coverageReporters: [
     "text",
