@@ -10,6 +10,6 @@ describe("SmeupLabel", () => {
           'color':  "red",
           'content': content}
     });
-    expect(wrapper.text()).toMatch(content + "x");
+    expect(wrapper.text()).toMatch(content);
   });
 });

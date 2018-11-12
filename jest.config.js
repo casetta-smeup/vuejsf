@@ -44,14 +44,14 @@ module.exports = {
     "html"
   ],
   coverageDirectory: "target/test/unit/coverage",
-  //coverageThreshold: {
-  //  "global": {
-  //    "branches": 100,
-  //    "functions": 100,
-  //    "lines": 100,
-  //    "statements": 100
-  //  },
-  //},
+  coverageThreshold: {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    },
+  },
   collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.vue"
