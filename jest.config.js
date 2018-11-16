@@ -20,5 +20,43 @@ module.exports = {
   testMatch: [
     "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
   ],
-  testURL: "http://localhost/"
+  testURL: "http://localhost/",
+  reporters: [
+    "default",
+
+    [ "jest-junit", { 
+      "output": "target/test/unit/junit/junit.xml",
+      "classNameTemplate": "{classname}",
+      "titleTemplate": "{classname} - {title}",
+      } 
+    ], 
+
+
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Jest Unit Test Report",
+      "outputPath": "target/test/unit/html/index.html"
+      }
+    ]    
+  ],
+  coverageReporters: [
+    "text",
+    "cobertura", 
+    "html"
+  ],
+  coverageDirectory: "target/test/unit/coverage",
+  // todo: rise them!
+  coverageThreshold: {
+    "global": {
+      "branches": 0,
+      "functions": 1,
+      "lines": 1,
+      "statements": 1
+    },
+  },
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.vue"
+  ]
 };
+
+
