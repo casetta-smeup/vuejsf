@@ -14,12 +14,6 @@ npm run serve
 ```
 npm run build
 ```
-
-### Run your tests
-```
-npm run test
-```
-
 ### Lints and fixes files
 ```
 npm run lint
@@ -29,3 +23,19 @@ npm run lint
 ```
 npm run test:unit
 ```
+
+### Run your e2e tests with a served app
+```
+npm run cy:open
+
+```
+### Start the server and run your e2e tests
+```
+npm run local:open
+```
+### Start ther server and run your e2e headlessly
+```
+npm run local:run
+```
+
+
