@@ -8,6 +8,8 @@
     "videosFolder": "tests/e2e/videos",
     "reporter": "junit",
     "reporterOptions": {
-        "mochaFile": "target/test/e2e/junit/results-[hash].xml"
+        "mochaFile": "target/test/e2e/junit/results-[hash].xml",
+        "testCaseSwitchClassnameAndName": true,
+        "useFullSuiteTitle": false
     }
 }
