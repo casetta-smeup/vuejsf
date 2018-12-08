@@ -9,4 +9,11 @@ describe("HelloWorld", () => {
     });
     expect(wrapper.text()).toMatch(msg);
   });
+  it("renders props.msg when passed 2", () => {
+    const msg = "new message";
+    const wrapper = shallowMount(HelloWorld, {
+      propsData: { msg }
+    });
+    expect(wrapper.text()).toMatch(msg);
+  });  
 });
